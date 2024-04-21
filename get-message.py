@@ -9,6 +9,10 @@ sqs = boto3.client('sqs')
 url = "https://sqs.us-east-1.amazonaws.com/440848399208/hdj3fw"
 
 def get_message():
+
+    # create the dictionary we will be using later 
+    attributes = {} 
+
     try:
         for _ in range(20): 
         # Receive message from SQS queue. Each message has two MessageAttributes: order and word
@@ -30,7 +34,8 @@ def get_message():
                 order = response['Messages'][0]['MessageAttributes']['order']['StringValue']
                 word = response['Messages'][0]['MessageAttributes']['word']['StringValue']
                 handle = response['Messages'][0]['ReceiptHandle']
-                
+
+                attributes[order] = word
 
                 # Print the message attributes - this is what you want to work with to reassemble the message
                 print(f"Order: {order}")
@@ -41,15 +46,9 @@ def get_message():
                 print("No message in the queue") 
                 break
 
-    # create a new dictionary to save the key-value pairs we pull from the ten messages 
-    attributes = {} 
-    attributes[order] = word
-
-    new_attributes = dict(sorted(attributes.items()))
-    return new_attributes 
-
     finally: 
-        pass  
+        attributes_sorted = dict(sorted(attributes.items(), key=lambda item: item[0]))
+        return attributes_sorted 
 
     # Handle any errors that may occur connecting to SQS
     #except ClientError as e:
@@ -60,4 +59,3 @@ def get_message():
     # Trigger the function
 if __name__ == "__main__": 
     get_message() 
-
