@@ -4,16 +4,15 @@ import requests
 import json
 
 # Set up your SQS queue URL and boto3 client
-url = "https://sqs.us-east-1.amazonaws.com/440848399208/hdj3fw"
 
 sqs = boto3.client('sqs')
-
+url = "https://sqs.us-east-1.amazonaws.com/440848399208/hdj3fw"
 
 def get_message():
     try:
         for _ in range(10): 
-        ` # Receive message from SQS queue. Each message has two MessageAttributes: order and word
-            # You want to extract these two attributes to reassemble the message
+        # Receive message from SQS queue. Each message has two MessageAttributes: order and word
+        # You want to extract these two attributes to reassemble the message
             response = sqs.receive_message(
                 QueueUrl=url,
                 AttributeNames=[
@@ -43,6 +42,9 @@ def get_message():
             else:
                 print("No message in the queue")
                 exit(1)
+
+    finally: 
+        pass 
             
     # Handle any errors that may occur connecting to SQS
     #except ClientError as e:
@@ -50,8 +52,8 @@ def get_message():
 
     # (^ I had to comment this out to get the script to run) 
 
-# Trigger the function
-if __name__ == "__main__":
+    # Trigger the function
+if __name__ == "__main__": 
     get_message()
 
 
@@ -66,10 +68,12 @@ def order_messages(attributes):
 
     return order_messages
 
-# call the function 
-order_messages(attributes) 
+# call the second function 
+if __name__ == "__main__": 
+    order_messages(attributes) 
 
 # print out the newly-ordered messages that have been retrieved 
 with open("phrase.txt", "w") as file: 
     for order, word in order_messages.items(): 
         file.write(f"Order:{order}, Word:{word}\n") 
+
