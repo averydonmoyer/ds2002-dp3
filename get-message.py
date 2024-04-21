@@ -44,7 +44,14 @@ def get_message():
                 exit(1)
 
     finally: 
-        pass 
+        order = list(attributes.keys())
+        word = list(attributes.values()) 
+
+        arr_orders = sorted(attributes.keys(), key=int) 
+
+        new_attributes = {order: attributes[order] for order in arr_orders} 
+
+        return new_attributes 
             
     # Handle any errors that may occur connecting to SQS
     #except ClientError as e:
@@ -55,25 +62,3 @@ def get_message():
     # Trigger the function
 if __name__ == "__main__": 
     get_message()
-
-
-# making the new function to order the ten messages we will have pulled out of the queue 
-def order_messages(attributes): 
-    order = list(attributes.keys())
-    word = list(attributes.values()) 
-
-    arr_orders = sorted(attributes.keys(), key=int) 
-
-    new_attributes = {order: attributes[order] for order in arr_orders} 
-
-    return order_messages
-
-# call the second function 
-if __name__ == "__main__": 
-    order_messages(attributes) 
-
-# print out the newly-ordered messages that have been retrieved 
-with open("phrase.txt", "w") as file: 
-    for order, word in order_messages.items(): 
-        file.write(f"Order:{order}, Word:{word}\n") 
-
