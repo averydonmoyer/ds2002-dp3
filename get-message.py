@@ -10,7 +10,7 @@ url = "https://sqs.us-east-1.amazonaws.com/440848399208/hdj3fw"
 
 def get_message():
     try:
-        for _ in range(10): 
+        for _ in range(11): 
         # Receive message from SQS queue. Each message has two MessageAttributes: order and word
         # You want to extract these two attributes to reassemble the message
             response = sqs.receive_message(
@@ -38,21 +38,15 @@ def get_message():
                 print(f"Order: {order}")
                 print(f"Word: {word}")
 
-            # If there is no message in the queue, print a message and exit    
+            # If there is no message in the queue, print a message    
             else:
                 print("No message in the queue")
-                exit(1)
 
     finally: 
-        order = list(attributes.keys())
-        word = list(attributes.values()) 
-
         arr_orders = sorted(attributes.keys(), key=int) 
-
         new_attributes = {order: attributes[order] for order in arr_orders} 
+        return new_attributes  
 
-        return new_attributes 
-            
     # Handle any errors that may occur connecting to SQS
     #except ClientError as e:
        # print(e.response['Error']['Message'])
@@ -61,4 +55,5 @@ def get_message():
 
     # Trigger the function
 if __name__ == "__main__": 
-    get_message()
+    get_message() 
+
