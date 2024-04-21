@@ -25,15 +25,12 @@ def get_message():
             )
             # Check if there is a message in the queue or not
             if "Messages" in response:
-                attributes = {} 
                 # extract the two message attributes you want to use as variables
                 # extract the handle for deletion later
                 order = response['Messages'][0]['MessageAttributes']['order']['StringValue']
                 word = response['Messages'][0]['MessageAttributes']['word']['StringValue']
                 handle = response['Messages'][0]['ReceiptHandle']
-
-                # create a new dictionary to save the key-value pairs we pull from the ten messages 
-                attributes[order] = word
+                
 
                 # Print the message attributes - this is what you want to work with to reassemble the message
                 print(f"Order: {order}")
@@ -41,11 +38,15 @@ def get_message():
 
             # If there is no message in the queue, print a message    
             else:
-                print("No message in the queue")
-                break 
+                print("No message in the queue") 
+                break
 
-        new_attributes = dict(sorted(attributes.items()))
-        return new_attributes 
+    # create a new dictionary to save the key-value pairs we pull from the ten messages 
+    attributes = {} 
+    attributes[order] = word
+
+    new_attributes = dict(sorted(attributes.items()))
+    return new_attributes 
 
     finally: 
         pass  
