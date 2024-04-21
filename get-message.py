@@ -66,8 +66,10 @@ def order_messages(attributes):
 
     return order_messages
 
+# call the function 
+order_messages(attributes) 
 
 # print out the newly-ordered messages that have been retrieved 
-print("Here are the message attributes rearranged:") 
-for order, word in order_messages.items(): 
-    print{f"Order:{order}, Word:{word}"} 
+with open("phrase.txt", "w") as file: 
+    for order, word in order_messages.items(): 
+        file.write(f"Order:{order}, Word:{word}\n") 
