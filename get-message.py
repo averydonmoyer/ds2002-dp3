@@ -44,18 +44,22 @@ def get_message():
             # If there is no message in the queue, print a message    
             else:
                 print("No message in the queue") 
-                break
+                break 
 
-    finally: 
+
+def sort_messages(): 
+    try: 
         attributes_sorted = dict(sorted(attributes.items(), key=lambda item: item[0]))
-        return attributes_sorted 
-
+        return attributes_sorted
+    except Exception as e: 
+        print(f"An error has occurred: {e}")  
     # Handle any errors that may occur connecting to SQS
     #except ClientError as e:
        # print(e.response['Error']['Message'])
 
-    # (^ I had to comment this out to get the script to run) 
+                # (^ I had to comment this out to get the script to run) 
 
     # Trigger the function
 if __name__ == "__main__": 
-    get_message() 
+    get_message()  
+    sort_messages() 
