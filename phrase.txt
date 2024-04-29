@@ -3,4 +3,4 @@
 
 # Put your reassembled phrase here:
 
-
+# {0: 'People', 1: 'who', 2: 'know', 3: 'what', 4: "they're", 5: 'talking', 6: 'about', 7: "don't", 8: 'need', 9: 'PowerPoint.'}

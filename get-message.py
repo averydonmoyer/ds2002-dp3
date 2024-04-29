@@ -31,7 +31,7 @@ def get_message():
             if "Messages" in response:
                 # extract the two message attributes you want to use as variables
                 # extract the handle for deletion later
-                order = response['Messages'][0]['MessageAttributes']['order']['StringValue']
+                order = int(response['Messages'][0]['MessageAttributes']['order']['StringValue']) 
                 word = response['Messages'][0]['MessageAttributes']['word']['StringValue']
                 handle = response['Messages'][0]['ReceiptHandle']
 
@@ -41,6 +41,13 @@ def get_message():
                 print(f"Order: {order}")
                 print(f"Word: {word}")
 
+                 # Delete message from SQS queue
+                sqs.delete_message(
+                    QueueUrl=url,
+                    ReceiptHandle=handle
+                    )
+                print("Message deleted")
+
             # If there is no message in the queue, print a message    
             else:
                 print("No message in the queue") 
@@ -49,10 +56,11 @@ def get_message():
     finally: 
         pass 
 
+
 def sort_messages(): 
     try: 
-        attributes_sorted = dict(sorted(attributes.items(), key=lambda item: item[0]))
-        return attributes_sorted
+        messages_sorted = dict(sorted(attributes.items(), key=lambda item: item[0]))
+        return messages_sorted
     except Exception as e: 
         print(f"An error has occurred: {e}")  
     # Handle any errors that may occur connecting to SQS
@@ -64,4 +72,5 @@ def sort_messages():
     # Trigger the function
 if __name__ == "__main__": 
     get_message()  
-    sort_messages() 
+    sorted = sort_messages() 
+    print(sorted) 
