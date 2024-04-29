@@ -8,10 +8,10 @@ import json
 sqs = boto3.client('sqs')
 url = "https://sqs.us-east-1.amazonaws.com/440848399208/hdj3fw"
 
-def get_message():
+# create the dictionary we will be using later 
+attributes = {} 
 
-    # create the dictionary we will be using later 
-    attributes = {} 
+def get_message():
 
     try:
         for _ in range(20): 
@@ -46,6 +46,8 @@ def get_message():
                 print("No message in the queue") 
                 break 
 
+    finally: 
+        pass 
 
 def sort_messages(): 
     try: 
